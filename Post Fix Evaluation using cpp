@@ -1,1 +1,75 @@
+#include<bits/stdc++.h>
+#include<ctype.h>
+using namespace std;
+int top=0;
+void push(int *ar, int item)
+{
+    ar[top]=item;
+    top++;
+}
+int pop(int *ar)
+{
+    top--;
+    return ar[top];
+}
 
+int main()
+{
+    string str;
+    int i,num=0,ar[100],a,b;
+    cout<<"Enter postfix expression: ";
+    getline(cin,str);
+    i=0;
+    while(str[i]!='\0')
+    {
+        if(str[i]==' ')
+        {
+            i++;
+            continue;
+        }
+        else if(isdigit(str[i]))
+        {
+            while(1)
+            {
+                if(str[i]==' ' || str[i]=='\0') break;
+                num=num*10+(str[i]-'0');
+                i++;
+            }
+            push(ar,num);
+            i--;
+            num=0;
+        }
+        else if(str[i]=='+')
+        {
+            a=pop(ar);
+            b=pop(ar);
+            push(ar,a+b);
+        }
+        else if(str[i]=='-')
+        {
+            a=pop(ar);
+            b=pop(ar);
+            push(ar,b-a);
+        }
+        else if(str[i]=='*')
+        {
+            a=pop(ar);
+            b=pop(ar);
+            push(ar,b*a);
+        }
+        else if(str[i]=='/')
+        {
+            a=pop(ar);
+            b=pop(ar);
+            push(ar,b/a);
+        }
+        i++;
+    }
+    for(int j=top-1; j>=0; j--)
+    {
+        cout<<ar[j]<<" ";
+    }
+    cout<<endl<<str;
+
+    return 0;
+}
